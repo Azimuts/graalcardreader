@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+<!-- ====================================================================== -->
+<!-- PROPERTIES                                                             -->
+<!-- ====================================================================== -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Java version -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- REVISION -->
+		<!-- Update revision:
+				> mvn -Drevision={new revision} clean package
+		-->
+		<revision>0.0.1-SNAPSHOT</revision>
+
+	
+	</properties>
+
+<!-- ====================================================================== -->
+<!-- ARTIFACT                                                               -->
+<!-- ====================================================================== -->
+	<groupId>demo01.graal.sample</groupId>
+	<name>graalcardreader</name>
+	<artifactId>graalcardreader</artifactId>
+	<version>${revision}</version>	
+<!-- ====================================================================== -->
+<!-- BUILD                                                                  -->
+<!-- ====================================================================== -->
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!--
+				ECLIPSE (see main pom.xml for further info) ===================
+				This plugin has NO effects in maven build:
+					m2e ONLY runs some 'standard' goals of the maven pom.xml since the aim of m2e is NOT to be a complete CI tool
+					... in order to include 'non-standard' goals in m2e execution and avoid [plugin execution not covered by the eclipse m2e plugin project build lifecycle mapping]
+						the 'non-standard' plugin MUST be explicitly included in m2e execution
+				-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration> 
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<!-- flatten plugin -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>flatten-maven-plugin</artifactId>
+										<versionRange>[1.1.0,)</versionRange>
+										<goals>
+											<goal>flatten</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+		 <!--  Graal Native Plugin -->
+		 <plugin>
+		 <groupId>org.graalvm.nativeimage</groupId>
+		 <artifactId>native-image-maven-plugin</artifactId>
+		 <version>20.0.0</version>
+		  <executions>
+		    <execution>
+		      <goals>
+		        <goal>native-image</goal>
+		      </goals>
+		      <phase>package</phase>
+		    </execution>
+		  </executions>
+		  <configuration>		   
+		    <imageName>SmartCard</imageName>
+		    <mainClass>demo.sample.smartcard.SmartCardSample</mainClass>
+		    <buildArgs>-H:+ReportUnsupportedElementsAtRuntime --allow-incomplete-classpath --no-fallback -H:+ReportExceptionStackTraces</buildArgs>
+		  </configuration>
+	      </plugin>		
+		</plugins>		
+	</build>
+</project>

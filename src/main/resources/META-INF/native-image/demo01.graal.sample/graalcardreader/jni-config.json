@@ -1,0 +1,18 @@
+[
+  {
+    "name": "sun.security.smartcardio.PCSC",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "sun.security.smartcardio.PCSCException",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "sun.security.smartcardio.SunPCSC",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  }
+  
+]
